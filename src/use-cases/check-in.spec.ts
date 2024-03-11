@@ -21,8 +21,8 @@ describe('Check-in Use Case', () => {
       title: 'Javascript Gym',
       description: '',
       phone: '',
-      latitude: 17.8003316,
-      longitude: -50.9393447,
+      latitude: -16.6794501,
+      longitude: -49.3805473,
     });
 
     vi.useFakeTimers();
@@ -36,8 +36,8 @@ describe('Check-in Use Case', () => {
     const { checkIn } = await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 17.8003316,
-      userLongitude: -50.9393447,
+      userLatitude: -16.6794501,
+      userLongitude: -49.3805473,
     });
 
     expect(checkIn.id).toEqual(expect.any(String));
@@ -49,18 +49,18 @@ describe('Check-in Use Case', () => {
     await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 17.8003316,
-      userLongitude: -50.9393447,
+      userLatitude: -16.6794501,
+      userLongitude: -49.3805473,
     });
 
     await expect(() =>
       sut.execute({
         gymId: 'gym-01',
         userId: 'user-01',
-        userLatitude: 17.8003316,
-        userLongitude: -50.9393447,
+        userLatitude: -16.6794501,
+        userLongitude: -49.3805473,
       }),
-    ).rejects.toBeInstanceOf(MaxNumberCheckInsError);
+    ).rejects.toBeInstanceOf(MaxNumberCheckInsError); // caso o user faça checkin mais longe da academia 100m
   });
 
   it('should be able to check in twice but in different days ', async () => {
@@ -69,8 +69,8 @@ describe('Check-in Use Case', () => {
     await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 17.8003316,
-      userLongitude: -50.9393447,
+      userLatitude: -16.6794501,
+      userLongitude: -49.3805473,
     });
 
     vi.setSystemTime(new Date(2024, 0, 21, 12, 0, 0));
@@ -78,8 +78,8 @@ describe('Check-in Use Case', () => {
     const { checkIn } = await sut.execute({
       gymId: 'gym-01',
       userId: 'user-01',
-      userLatitude: 17.8003316,
-      userLongitude: -50.9393447,
+      userLatitude: -16.6794501,
+      userLongitude: -49.3805473,
     });
 
     expect(checkIn.id).toEqual(expect.any(String));
@@ -98,8 +98,8 @@ describe('Check-in Use Case', () => {
       sut.execute({
         gymId: 'gym-02',
         userId: 'user-01',
-        userLatitude: 17.8003316,
-        userLongitude: -50.9393447,
+        userLatitude: -16.6792857,
+        userLongitude: -49.3805473,
       }),
     ).rejects.toBeInstanceOf(MaxDistanceError);
   });

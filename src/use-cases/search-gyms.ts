@@ -7,7 +7,7 @@ interface SearchGymsUseCaseSchema {
 }
 
 interface SearchGymsUseCaseResponse {
-  gym: Gym;
+  gyms: Gym[];
 }
 
 export class SearchGymsUseCase {
@@ -18,16 +18,10 @@ export class SearchGymsUseCase {
     query,
     page,
   }: SearchGymsUseCaseSchema): Promise<SearchGymsUseCaseResponse> {
-    const gym = await this.gymsRepository.create({
-      title,
-      description,
-      phone,
-      latitude,
-      longitude,
-    });
+    const gyms = await this.gymsRepository.searchMany(query, page);
 
     return {
-      gym,
+      gyms,
     };
   }
 }
