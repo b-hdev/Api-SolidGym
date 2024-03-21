@@ -1,21 +1,21 @@
-import { makeSearchGymsUseCase } from '@/use-cases/factories/make-search-gyms-use-case';
+import { makeFetchUserCheckInsHistoryUseCase } from '@/use-cases/factories/make-fetch-user-check-ins-history-use-case';
 import { FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
 
 export async function history(request: FastifyRequest, reply: FastifyReply) {
-  const searchGymsQuerySchema = z.object({
+  const checkInHistoryQuerySchema = z.object({
     page: z.coerce.number().min(1).default(1),
   });
 
-  const { q, page } = searchGymsQuerySchema.parse(request.query);
+  const { page } = checkInHistoryQuerySchema.parse(request.body);
 
-  const searchGymsUseCase = makeSearchGymsUseCase();
+  const fetchUserCheckInHistoryUseCase = makeFetchUserCheckInsHistoryUseCase();
 
-  const { gyms } = await searchGymsUseCase.execute({
-    query: q,
+  const { checkIns } = await fetchUserCheckInHistoryUseCase.execute({
     page,
+    userId: request.user.sub,
   });
   return reply.status(200).send({
-    gyms,
+    checkIns,
   });
 }
