@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 export async function search(request: FastifyRequest, reply: FastifyReply) {
   const searchGymsQuerySchema = z.object({
-    q: z.string(),
+    q: z.coerce.string(),
     page: z.coerce.number().min(1).default(1),
   });
 
