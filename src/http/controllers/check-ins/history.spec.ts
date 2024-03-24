@@ -44,7 +44,7 @@ describe('Check-in History (e2e)', () => {
       .set('Authorization', `Bearer ${token}`)
       .send();
 
-    expect(response.statusCode).toEqual(201);
+    expect(response.status).toEqual(201);
     expect(response.body.checkIns).toEqual([
       expect.objectContaining({
         gym_id: gym.id,
